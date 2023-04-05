@@ -2,8 +2,6 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
-import LoginNavbar from "../components/LoginNavbar";
-
 const Login: NextPage = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -18,7 +16,12 @@ const Login: NextPage = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <LoginNavbar isRegistration={false} />
+      <div className="bg-navbar flex justify-between items-center w-full py-4 px-12">
+        <h2 className="text-lg tracking-[.5em] font-semibold">verse</h2>
+        <button className="bg-black rounded-lg text-white px-8 py-2">
+          Sign Up
+        </button>
+      </div>
       <div className="m-auto flex flex-col items-center justify-center w-1/3 h-2/3">
         <Image
           className="relative bottom-10"
