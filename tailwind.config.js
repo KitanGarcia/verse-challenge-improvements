@@ -12,6 +12,7 @@ module.exports = {
         "secondary-bg": "#EEF1EE",
         "secondary-text": "#7E7E7E",
         active: "#B2C5D8",
+        disabled: "#E1E2E0",
       },
     },
   },
