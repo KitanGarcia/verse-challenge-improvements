@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Sidebar from "../components/Sidebar";
 import PlanningTile from "../components/PlanningTile";
 
-const Home: NextPage = () => {
+const PlanningAndProcurement: NextPage = () => {
   return (
     <div className="h-full flex flex-col">
       <div className="w-full h-full flex">
@@ -49,4 +49,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default PlanningAndProcurement;

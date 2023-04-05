@@ -12,7 +12,7 @@ const Home: NextPage = () => {
     if (!isLoggedIn) {
       router.push("/login");
     } else {
-      router.push("/planning");
+      router.push("/planning-and-procurement");
     }
   }, [isLoggedIn]);
 
