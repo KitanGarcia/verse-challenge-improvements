@@ -14,6 +14,10 @@ module.exports = {
         active: "#B2C5D8",
         disabled: "#E1E2E0",
       },
+      inset: {
+        "1/10": "10%",
+        "1.5/10": "15%",
+      },
     },
   },
   plugins: [],

@@ -9,7 +9,7 @@ const Sidebar = () => {
       <ul className="p-4 w-full text-center">
         <li
           className="mb-4 border-2 hover:bg-active h-[60px] flex justify-center items-center cursor-pointer"
-          onClick={() => console.log("Clicked")}
+          onClick={() => router.push("/planning-and-procurement")}
         >
           Planning & Procurement
         </li>
