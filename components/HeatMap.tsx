@@ -78,7 +78,7 @@ const Heatmap: React.FC<HeatmapProps> = ({
     );
   });
 
-  const yLabels = allYGroups.map((name, i) => {
+  const hourLabels = allYGroups.map((name, i) => {
     const yPos = yScale(name) ?? 0;
     return (
       <text
@@ -94,6 +94,21 @@ const Heatmap: React.FC<HeatmapProps> = ({
     );
   });
 
+  const dateRangeLabels = [0, width - 70].map((value, i) => {
+    return (
+      <text
+        key={i}
+        x={value}
+        y={boundsHeight + 10}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontSize={10}
+      >
+        {i === 0 ? "January 1" : "December 31"}
+      </text>
+    );
+  });
+
   return (
     <svg width={width} height={height} ref={heatmapRef}>
       <g
@@ -102,7 +117,8 @@ const Heatmap: React.FC<HeatmapProps> = ({
         transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
       >
         {allRects}
-        {yLabels}
+        {dateRangeLabels}
+        {hourLabels}
       </g>
     </svg>
   );
