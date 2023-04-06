@@ -8,10 +8,10 @@ import { DataField } from "../types/DataField";
 import data from "../data/caiso_carbon_intensity.json";
 import GraphSelector from "../components/GraphSelector";
 import HeatMap from "../components/HeatMap";
-import HeatMapLegend from "../components/HeatMapLegend";
 
 const CarbonIntensity: NextPage = () => {
   const [showLineChart, setShowLineChart] = useState(true);
+  const [heatMapYear, setHeatMapYear] = useState(2019);
   const [intensities, setIntensities] = useState<Array<IntensityData>>([]);
   const [fields, setDataFields] = useState<Array<DataField>>([]);
 
@@ -45,20 +45,20 @@ const CarbonIntensity: NextPage = () => {
     <div className="h-full flex flex-col">
       <div className="w-full h-full flex">
         <Sidebar />
-        <div className="w-full h-full flex flex-col justify-center">
-          <div className="mx-auto">
-            <div className="flex justify-center mb-8">
-              <GraphSelector
-                isLineChart={true}
-                showLineChart={showLineChart}
-                setShowLineChart={setShowLineChart}
-              />
-              <GraphSelector
-                isLineChart={false}
-                showLineChart={showLineChart}
-                setShowLineChart={setShowLineChart}
-              />
-            </div>
+        <div className="w-full h-full">
+          <div className="flex justify-center relative top-1/10">
+            <GraphSelector
+              isLineChart={true}
+              showLineChart={showLineChart}
+              setShowLineChart={setShowLineChart}
+            />
+            <GraphSelector
+              isLineChart={false}
+              showLineChart={showLineChart}
+              setShowLineChart={setShowLineChart}
+            />
+          </div>
+          <div className="mx-auto relative top-1.5/10">
             {showLineChart ? (
               <LineChart
                 data={intensities}
@@ -74,7 +74,6 @@ const CarbonIntensity: NextPage = () => {
                   width={900}
                   height={600}
                 />
-                <HeatMapLegend width={500} height={100} max={500} min={81} />
               </div>
             )}
           </div>

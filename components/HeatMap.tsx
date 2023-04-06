@@ -4,6 +4,7 @@ import * as d3 from "d3";
 import { daysIntoYear } from "../data/utils";
 import { IntensityData } from "../types/IntensityData";
 import { DataField } from "../types/DataField";
+import HeatMapLegend from "../components/HeatMapLegend";
 
 interface HeatmapProps {
   data: IntensityData[];
@@ -110,17 +111,28 @@ const Heatmap: React.FC<HeatmapProps> = ({
   });
 
   return (
-    <svg width={width} height={height} ref={heatmapRef}>
-      <g
-        width={boundsWidth}
-        height={boundsHeight}
-        transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
-      >
-        {allRects}
-        {dateRangeLabels}
-        {hourLabels}
-      </g>
-    </svg>
+    <div className="flex justify-center flex-col items-center">
+      <div>
+        <div className="flex justify-evenly rounded-md border-2 bg-nav-bg text-center">
+          <h2 className="my-4 text-black cursor-pointer">2019</h2>
+          <h2 className="my-4 text-secondary-text cursor-pointer">2020</h2>
+          <h2 className="my-4 text-secondary-text cursor-pointer">2021</h2>
+          <h2 className="my-4 text-secondary-text cursor-pointer">2022</h2>
+        </div>
+        <svg width={width} height={height} ref={heatmapRef}>
+          <g
+            width={boundsWidth}
+            height={boundsHeight}
+            transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
+          >
+            {allRects}
+            {dateRangeLabels}
+            {hourLabels}
+          </g>
+        </svg>
+      </div>
+      <HeatMapLegend width={500} height={100} max={500} min={81} />
+    </div>
   );
 };
 
