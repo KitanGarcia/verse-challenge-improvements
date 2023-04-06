@@ -1,85 +1,32 @@
 //@ts-nocheck
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useMemo } from "react";
 import * as d3 from "d3";
+import { daysIntoYear } from "../data/utils";
+import { IntensityData } from "../types/IntensityData";
+import { DataField } from "../types/DataField";
 
-interface HeatmapProps {}
+interface HeatmapProps {
+  data: IntensityData[];
+  fields: DataField[];
+  height: number;
+  width: number;
+}
 
 // Pass in height and width as prop
-const Heatmap: React.FC<HeatmapProps> = () => {
+const Heatmap: React.FC<HeatmapProps> = ({
+  data,
+  fields,
+  height,
+  width,
+}: HeatmapProps) => {
   const heatmapRef = useRef<SVGSVGElement>(null);
-  const height = 600;
-  const width = 900;
   const MARGIN = { top: 10, right: 10, bottom: 30, left: 30 };
 
-  // bounds = area inside the axis
+  // Bounds = area inside the axis
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
-  const daysIntoYear = (date) => {
-    return (
-      (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
-        Date.UTC(date.getFullYear(), 0, 0)) /
-      24 /
-      60 /
-      60 /
-      1000
-    );
-  };
-
   // List of unique items that will appear on the heatmap Y axis
-  const data = useMemo(
-    () => [
-      {
-        datetime: "2019-12-01T00:00:00.000Z",
-        carbon_intensity: 414,
-      },
-      {
-        datetime: "2019-12-01T01:00:00.000Z",
-        carbon_intensity: 416,
-      },
-      {
-        datetime: "2019-12-01T02:00:00.000Z",
-        carbon_intensity: 410,
-      },
-      {
-        datetime: "2019-12-01T03:00:00.000Z",
-        carbon_intensity: 403,
-      },
-      {
-        datetime: "2019-12-01T04:00:00.000Z",
-        carbon_intensity: 402,
-      },
-      {
-        datetime: "2019-12-01T05:00:00.000Z",
-        carbon_intensity: 405,
-      },
-      {
-        datetime: "2019-12-01T06:00:00.000Z",
-        carbon_intensity: 410,
-      },
-      {
-        datetime: "2019-12-01T07:00:00.000Z",
-        carbon_intensity: 407,
-      },
-      {
-        datetime: "2019-12-01T08:00:00.000Z",
-        carbon_intensity: 407,
-      },
-      {
-        datetime: "2019-12-02T06:00:00.000Z",
-        carbon_intensity: 410,
-      },
-      {
-        datetime: "2019-12-03T07:00:00.000Z",
-        carbon_intensity: 407,
-      },
-      {
-        datetime: "2019-12-04T03:00:00.000Z",
-        carbon_intensity: 407,
-      },
-    ],
-    []
-  );
   const allYGroups = useMemo(
     () => [...new Set(data.map((d) => new Date(d.datetime).getUTCHours()))],
     [data]
@@ -91,7 +38,7 @@ const Heatmap: React.FC<HeatmapProps> = () => {
   );
 
   // Create array containing [1, ..., 365]
-  const xRange = Array.from(Array(365), (_, index) => index + 1);
+  const xRange = Array.from(Array(365), (_, index) => `${index + 1}`);
 
   const xScale = useMemo(() => {
     return d3.scaleBand().range([0, boundsWidth]).domain(xRange).padding(0.01);
@@ -106,30 +53,23 @@ const Heatmap: React.FC<HeatmapProps> = () => {
   }, [allYGroups, boundsHeight]);
 
   const [min, max] = d3.extent(data.map((d) => d.carbon_intensity));
-  console.log("==============");
-  console.log(min, max);
-
-  // xScale("A") -> 0
-  // xScale.bandwidth() -> 11
 
   const colorScale = d3
     .scaleSequential()
     .interpolator(d3.interpolateInferno)
-    .domain([min, max]);
+    .domain([min, max] as number[]);
 
   const allRects = data.map((d, i) => {
     let y = new Date(d.datetime).getUTCHours();
     let x = daysIntoYear(new Date(d.datetime));
-    console.log(y);
-    console.log(x);
 
-    if (d.value === null) {
+    if (d.carbon_intensity === null) {
       return;
     }
     return (
       <rect
         key={i}
-        x={xScale(x)}
+        x={xScale(`${x}`)}
         y={yScale(y)}
         width={xScale.bandwidth()}
         height={yScale.bandwidth()}
@@ -138,25 +78,6 @@ const Heatmap: React.FC<HeatmapProps> = () => {
     );
   });
 
-  /*
-  const xLabels = xRange.map((name, i) => {
-    const xPos = xScale(name) ?? 0;
-    return (
-      <text
-        key={i}
-        x={xPos + xScale.bandwidth() / 2}
-        y={boundsHeight + 10}
-        textAnchor="middle"
-        dominantBaseline="middle"
-        fontSize={10}
-      >
-        {name}
-      </text>
-    );
-  });
-  */
-
-  console.log("Y", allYGroups);
   const yLabels = allYGroups.map((name, i) => {
     const yPos = yScale(name) ?? 0;
     return (
