@@ -7,6 +7,7 @@ import { IntensityData } from "../types/IntensityData";
 import { DataField } from "../types/DataField";
 import data from "../data/caiso_carbon_intensity.json";
 import GraphSelector from "../components/GraphSelector";
+import HeatMap from "../components/HeatMap";
 
 const CarbonIntensity: NextPage = () => {
   const [showLineChart, setShowLineChart] = useState(true);
@@ -65,12 +66,7 @@ const CarbonIntensity: NextPage = () => {
                 height={600}
               />
             ) : (
-              <LineChart
-                data={intensities}
-                fields={fields}
-                width={900}
-                height={600}
-              />
+              <HeatMap />
             )}
           </div>
         </div>
