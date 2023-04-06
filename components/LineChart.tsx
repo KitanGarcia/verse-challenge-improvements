@@ -65,7 +65,7 @@ const LineChart = ({ data, fields, width, height }: LineChartProps) => {
       .call(d3.axisLeft(y));
   }, [chartRef, data, height, width]);
 
-  return <svg className="m-auto" ref={chartRef}></svg>;
+  return <svg className="mx-auto" ref={chartRef}></svg>;
 };
 
 export default LineChart;

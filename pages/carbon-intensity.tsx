@@ -6,12 +6,14 @@ import LineChart from "../components/LineChart";
 import { IntensityData } from "../types/IntensityData";
 import { DataField } from "../types/DataField";
 import data from "../data/caiso_carbon_intensity.json";
+import GraphSelector from "../components/GraphSelector";
 
 const CarbonIntensity: NextPage = () => {
+  const [showLineChart, setShowLineChart] = useState(true);
   const [intensities, setIntensities] = useState<Array<IntensityData>>([]);
   const [fields, setDataFields] = useState<Array<DataField>>([]);
 
-  // Get data
+  // Parse through data
   useEffect(() => {
     // Check if file was read
     if (!data) {
@@ -42,12 +44,35 @@ const CarbonIntensity: NextPage = () => {
       <div className="w-full h-full flex">
         <Sidebar />
         <div className="w-full h-full flex flex-col justify-center">
-          <LineChart
-            data={intensities}
-            fields={fields}
-            width={900}
-            height={600}
-          />
+          <div className="mx-auto">
+            <div className="flex justify-center mb-8">
+              <GraphSelector
+                isLineChart={true}
+                showLineChart={showLineChart}
+                setShowLineChart={setShowLineChart}
+              />
+              <GraphSelector
+                isLineChart={false}
+                showLineChart={showLineChart}
+                setShowLineChart={setShowLineChart}
+              />
+            </div>
+            {showLineChart ? (
+              <LineChart
+                data={intensities}
+                fields={fields}
+                width={900}
+                height={600}
+              />
+            ) : (
+              <LineChart
+                data={intensities}
+                fields={fields}
+                width={900}
+                height={600}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
