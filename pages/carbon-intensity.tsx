@@ -8,6 +8,7 @@ import { DataField } from "../types/DataField";
 import data from "../data/caiso_carbon_intensity.json";
 import GraphSelector from "../components/GraphSelector";
 import HeatMap from "../components/HeatMap";
+import DashboardNavbar from "../components/DashboardNavbar";
 
 const CarbonIntensity: NextPage = () => {
   const [showLineChart, setShowLineChart] = useState(true);
@@ -46,6 +47,7 @@ const CarbonIntensity: NextPage = () => {
       <div className="w-full h-full flex">
         <Sidebar />
         <div className="w-full h-full">
+          <DashboardNavbar imageSrc={"/../public/profilePic.png"} />
           <div className="flex justify-center relative top-1/10">
             <GraphSelector
               isLineChart={true}
