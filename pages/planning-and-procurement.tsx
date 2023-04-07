@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Sidebar from "../components/Sidebar";
+import DashboardNavbar from "../components/DashboardNavbar";
 import PlanningTile from "../components/PlanningTile";
 
 const PlanningAndProcurement: NextPage = () => {
@@ -8,40 +9,43 @@ const PlanningAndProcurement: NextPage = () => {
       <div className="w-full h-full flex">
         <Sidebar />
         <div className="w-full h-full flex flex-col justify-center">
-          <h2 className="mb-8 text-center">
-            Lorem ipsum, this is placeholder text
-          </h2>
-          <div className="flex mb-4 justify-center">
-            <PlanningTile
-              imageSrc={"/../public/placeholder.png"}
-              title={"Goal Setting & Portfolio Design"}
-              buttonText={"Set up"}
-              enabled={false}
-              route={""}
-            />
-            <PlanningTile
-              imageSrc={"/../public/placeholder.png"}
-              title={"RFO Administration"}
-              buttonText={"Set up"}
-              enabled={false}
-              route={""}
-            />
-          </div>
-          <div className="flex mt-4 justify-center">
-            <PlanningTile
-              imageSrc={"/../public/placeholder.png"}
-              title={"Commercial Structuring"}
-              buttonText={"Set up"}
-              enabled={false}
-              route={""}
-            />
-            <PlanningTile
-              imageSrc={"/../public/placeholder.png"}
-              title={"Energy Supply Portfolio Construction"}
-              buttonText={"Set up"}
-              enabled={true}
-              route={"carbonintensity"}
-            />
+          <DashboardNavbar imageSrc={"/../public/profilePic.png"} />
+          <div className="relative top-4">
+            <h2 className="my-6 text-center">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit
+            </h2>
+            <div className="flex mb-8 justify-center">
+              <PlanningTile
+                imageSrc={"/../public/placeholder.png"}
+                title={"Goal Setting & Portfolio Design"}
+                buttonText={"Set up"}
+                enabled={false}
+                route={""}
+              />
+              <PlanningTile
+                imageSrc={"/../public/placeholder.png"}
+                title={"RFO Administration"}
+                buttonText={"Set up"}
+                enabled={false}
+                route={""}
+              />
+            </div>
+            <div className="flex justify-center">
+              <PlanningTile
+                imageSrc={"/../public/placeholder.png"}
+                title={"Commercial Structuring"}
+                buttonText={"Set up"}
+                enabled={false}
+                route={""}
+              />
+              <PlanningTile
+                imageSrc={"/../public/placeholder.png"}
+                title={"Carbon Intensity"}
+                buttonText={"Set up"}
+                enabled={true}
+                route={"/carbon-intensity"}
+              />
+            </div>
           </div>
         </div>
       </div>
