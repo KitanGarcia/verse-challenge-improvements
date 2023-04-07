@@ -23,8 +23,6 @@ const Heatmap: React.FC<HeatmapProps> = ({
   height,
   width,
 }: HeatmapProps) => {
-  console.log("MIN", min);
-  console.log("MAX", min);
   const heatmapRef = useRef<SVGSVGElement>(null);
   const margin = { top: 10, right: 10, bottom: 30, left: 30 };
 
@@ -52,8 +50,6 @@ const Heatmap: React.FC<HeatmapProps> = ({
       .domain(allYGroups)
       .padding(0.01);
   }, [allYGroups, boundsHeight]);
-
-  //  const [min, max] = d3.extent(data.map((d) => d.carbon_intensity));
 
   const colorScale = d3
     .scaleSequential()

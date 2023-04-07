@@ -11,7 +11,6 @@ import HeatMap from "../components/HeatMap";
 import DashboardNavbar from "../components/DashboardNavbar";
 
 import * as dataUtils from "../utils/data";
-import * as d3 from "d3";
 
 const CarbonIntensity: NextPage = () => {
   const [showLineChart, setShowLineChart] = useState(true);
@@ -28,7 +27,7 @@ const CarbonIntensity: NextPage = () => {
   const [minOfYear, setMinOfYear] = useState(0);
   const [maxOfYear, setMaxOfYear] = useState(0);
 
-  const [heatMapYear, setHeatMapYear] = useState(2020);
+  const [heatMapYear, setHeatMapYear] = useState(2021);
   const [fields, setDataFields] = useState<Array<DataField>>([]);
 
   // Parse through data
@@ -51,29 +50,23 @@ const CarbonIntensity: NextPage = () => {
       return;
     }
 
-    let intensityData: IntensityData[] = data.data;
+    const {
+      allData,
+      yearData,
+      absoluteMax,
+      absoluteMin,
+      relativeMin,
+      relativeMax,
+    } = dataUtils.organizeData(data.data, heatMapYear);
 
-    // Filter out falsy values and incorrect types and remove duplicates
-    intensityData = dataUtils.cleanData(intensityData);
-    intensityData = dataUtils.removeDuplicates(intensityData);
-
+    // Set all and relative data, maxes, and mins
     setDataFields([dateField, numberField]);
-    setAllIntensities(intensityData);
-
-    // Get data pertaining only to selected year
-    let yearsIntensityData = dataUtils.filterYear(intensityData, heatMapYear);
-    setIntensityOfYear(yearsIntensityData);
-
-    // Get max and min for all data and for specific year
-    const [min, max] = d3.extent(intensityData.map((d) => d.carbon_intensity));
-    const [relativeMin, relativeMax] = d3.extent(
-      yearsIntensityData.map((d) => d.carbon_intensity)
-    );
-
-    setAbsoluteMax(max as number);
-    setAbsoluteMin(min as number);
-    setMaxOfYear(relativeMax as number);
-    setMinOfYear(relativeMin as number);
+    setAllIntensities(allData);
+    setIntensityOfYear(yearData);
+    setAbsoluteMax(absoluteMax);
+    setAbsoluteMin(absoluteMin);
+    setMaxOfYear(relativeMax);
+    setMinOfYear(relativeMin);
   }, [heatMapYear]);
 
   return (

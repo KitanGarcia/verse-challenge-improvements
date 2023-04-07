@@ -37,8 +37,10 @@ const LineChart = ({
     // And maps it to fit in the given range corresponding to width
     const x = d3
       .scaleTime()
-      // find min and max
-      .domain(d3.extent(data, (d) => new Date(d.datetime)) as [Date, Date])
+      .domain([
+        new Date(data[0].datetime),
+        new Date(data[data.length - 1].datetime),
+      ])
       .range([margin.left - 10, chartWidth - margin.right]);
 
     d3.selectAll("path.area").remove();
@@ -139,35 +141,9 @@ const LineChart = ({
       .duration(1000)
       .attr("stroke-width", 0)
       .attr("stroke-dashoffset", 0);
-
-    /*
-    const svg = d3
-      .select(chartRef.current)
-      .attr("width", width)
-      .attr("height", height);
-
-    svg
-      .append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
-      .attr("d", line);
-
-    svg
-      .append("g")
-      .attr("transform", `translate(0, ${chartHeight - margin.bottom})`)
-      .call(d3.axisBottom(x));
-
-    svg
-      .append("g")
-      .attr("transform", `translate(${margin.left}, 0)`)
-      .call(d3.axisLeft(y));
-      */
-  }, [chartRef, data, height, width]);
+  }, [chartRef, data, height, width, max]);
 
   return <svg className="mx-auto w-[900px] h-[500px]" ref={chartRef}></svg>;
-  //return <div id="line-chart" className="mx-auto" ref={chartRef}></div>;
 };
 
 export default LineChart;
