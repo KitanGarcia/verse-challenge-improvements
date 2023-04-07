@@ -12,6 +12,7 @@ const HeatMapLegend = ({ width, height, max, min }: HeatMapLegendProps) => {
   // Get 10 evenly space numbers between min and max
   const domain = d3.ticks(min, max, 10);
   domain[domain.length - 1] = max;
+  domain[0] = min;
 
   // Convert above intensities to colors
   const interpolation = domain.map((intensity) =>

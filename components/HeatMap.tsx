@@ -1,7 +1,6 @@
-//@ts-nocheck
 import React, { useRef, useMemo } from "react";
 import * as d3 from "d3";
-import { daysIntoYear } from "../data/utils";
+import { daysIntoYear } from "../utils/data";
 import { IntensityData } from "../types/IntensityData";
 import { DataField } from "../types/DataField";
 import HeatMapLegend from "../components/HeatMapLegend";
@@ -33,11 +32,6 @@ const Heatmap: React.FC<HeatmapProps> = ({
     [data]
   );
 
-  const allXGroups = useMemo(
-    () => [...new Set(data.map((d) => d.carbon_intensity))],
-    [data]
-  );
-
   // Create array containing [1, ..., 365]
   const xRange = Array.from(Array(365), (_, index) => `${index + 1}`);
 
@@ -47,7 +41,7 @@ const Heatmap: React.FC<HeatmapProps> = ({
 
   const yScale = useMemo(() => {
     return d3
-      .scaleBand()
+      .scaleBand<number>()
       .range([boundsHeight, 0])
       .domain(allYGroups)
       .padding(0.01);
@@ -131,7 +125,12 @@ const Heatmap: React.FC<HeatmapProps> = ({
           </g>
         </svg>
       </div>
-      <HeatMapLegend width={500} height={100} max={500} min={81} />
+      <HeatMapLegend
+        width={500}
+        height={100}
+        max={max as number}
+        min={min as number}
+      />
     </div>
   );
 };
