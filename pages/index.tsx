@@ -6,24 +6,16 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 
 const Home: NextPage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
   useEffect(() => {
-    if (!isLoggedIn) {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (isLoggedIn !== "true") {
       router.push("/login");
     } else {
       router.push("/planning-and-procurement");
     }
-  }, [isLoggedIn]);
+  }, []);
 
-  return (
-    <div className="h-full flex flex-col">
-      <div className="w-full h-full">
-        <Sidebar />
-        <div className="w-full h-full bg-red-500"></div>
-      </div>
-    </div>
-  );
+  return <div className="h-full flex flex-col"></div>;
 };
 
 export default Home;
