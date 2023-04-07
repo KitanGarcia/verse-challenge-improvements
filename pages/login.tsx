@@ -93,7 +93,7 @@ const Login: NextPage = () => {
           Forgot password?
         </p>
         {showError && (
-          <p className="text-red-600 mt-8">
+          <p data-testid="error-message" className="text-red-600 mt-8">
             Please enter a correct username and password.
           </p>
         )}
