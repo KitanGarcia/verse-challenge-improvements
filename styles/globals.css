@@ -24,3 +24,41 @@ a {
 * {
   box-sizing: border-box;
 }
+
+svg {
+  text-align: center;
+}
+  
+text {
+  font-family: Helvetica;
+  font-size: 14px;
+}
+
+.y-label {
+  font-size: 25px;
+}
+
+path.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1px;
+}
+
+.area {
+  fill: pink;
+  stroke-width: 0;
+  opacity: 0.8;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: slategray;
+  shape-rendering: crispEdges;
+}
+
+line.x,
+line.y,
+circle.y {
+  stroke: Aqua;
+}
