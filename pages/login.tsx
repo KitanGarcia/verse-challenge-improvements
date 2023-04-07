@@ -39,8 +39,8 @@ const Login: NextPage = () => {
       <div className="m-auto flex flex-col items-center w-1/3 h-2/3">
         <a data-testid="link" href="https://verse.inc">
           <Image
-            data-testid="logo"
             className="relative"
+            data-testid="logo"
             src={"/../public/logo.png"}
             alt={"Verse logo"}
             width={"90"}
