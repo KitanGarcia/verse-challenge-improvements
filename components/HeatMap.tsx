@@ -7,6 +7,8 @@ import HeatMapLegend from "../components/HeatMapLegend";
 
 interface HeatmapProps {
   data: IntensityData[];
+  min: number;
+  max: number;
   fields: DataField[];
   height: number;
   width: number;
@@ -15,16 +17,20 @@ interface HeatmapProps {
 // Pass in height and width as prop
 const Heatmap: React.FC<HeatmapProps> = ({
   data,
+  min,
+  max,
   fields,
   height,
   width,
 }: HeatmapProps) => {
+  console.log("MIN", min);
+  console.log("MAX", min);
   const heatmapRef = useRef<SVGSVGElement>(null);
-  const MARGIN = { top: 10, right: 10, bottom: 30, left: 30 };
+  const margin = { top: 10, right: 10, bottom: 30, left: 30 };
 
   // Bounds = area inside the axis
-  const boundsWidth = width - MARGIN.right - MARGIN.left;
-  const boundsHeight = height - MARGIN.top - MARGIN.bottom;
+  const boundsWidth = width - margin.right - margin.left;
+  const boundsHeight = height - margin.top - margin.bottom;
 
   // List of unique items that will appear on the heatmap Y axis
   const allYGroups = useMemo(
@@ -47,7 +53,7 @@ const Heatmap: React.FC<HeatmapProps> = ({
       .padding(0.01);
   }, [allYGroups, boundsHeight]);
 
-  const [min, max] = d3.extent(data.map((d) => d.carbon_intensity));
+  //  const [min, max] = d3.extent(data.map((d) => d.carbon_intensity));
 
   const colorScale = d3
     .scaleSequential()
@@ -117,7 +123,7 @@ const Heatmap: React.FC<HeatmapProps> = ({
           <g
             width={boundsWidth}
             height={boundsHeight}
-            transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
+            transform={`translate(${[margin.left, margin.top].join(",")})`}
           >
             {allRects}
             {dateRangeLabels}

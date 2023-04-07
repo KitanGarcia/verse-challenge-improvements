@@ -10,16 +10,31 @@ import GraphSelector from "../components/GraphSelector";
 import HeatMap from "../components/HeatMap";
 import DashboardNavbar from "../components/DashboardNavbar";
 
+import * as dataUtils from "../utils/data";
+import * as d3 from "d3";
+
 const CarbonIntensity: NextPage = () => {
   const [showLineChart, setShowLineChart] = useState(true);
-  const [heatMapYear, setHeatMapYear] = useState(2019);
-  const [intensities, setIntensities] = useState<Array<IntensityData>>([]);
+  const [allIntensities, setAllIntensities] = useState<Array<IntensityData>>(
+    []
+  );
+  const [intensityOfYear, setIntensityOfYear] = useState<Array<IntensityData>>(
+    []
+  );
+
+  // Min and max carbon intensities
+  const [absoluteMin, setAbsoluteMin] = useState(0);
+  const [absoluteMax, setAbsoluteMax] = useState(0);
+  const [minOfYear, setMinOfYear] = useState(0);
+  const [maxOfYear, setMaxOfYear] = useState(0);
+
+  const [heatMapYear, setHeatMapYear] = useState(2020);
   const [fields, setDataFields] = useState<Array<DataField>>([]);
 
   // Parse through data
   useEffect(() => {
     // Check if file was read
-    if (!data) {
+    if (!data || !data.data) {
       alert("Unable to retrieve data.");
     }
 
@@ -36,11 +51,30 @@ const CarbonIntensity: NextPage = () => {
       return;
     }
 
-    console.log(data.schema.fields[0]);
-    console.log(data.schema.fields[1]);
+    let intensityData: IntensityData[] = data.data;
+
+    // Filter out falsy values and incorrect types and remove duplicates
+    intensityData = dataUtils.cleanData(intensityData);
+    intensityData = dataUtils.removeDuplicates(intensityData);
+
     setDataFields([dateField, numberField]);
-    setIntensities(data.data as IntensityData[]);
-  }, []);
+    setAllIntensities(intensityData);
+
+    // Get data pertaining only to selected year
+    let yearsIntensityData = dataUtils.filterYear(intensityData, heatMapYear);
+    setIntensityOfYear(yearsIntensityData);
+
+    // Get max and min for all data and for specific year
+    const [min, max] = d3.extent(intensityData.map((d) => d.carbon_intensity));
+    const [relativeMin, relativeMax] = d3.extent(
+      yearsIntensityData.map((d) => d.carbon_intensity)
+    );
+
+    setAbsoluteMax(max as number);
+    setAbsoluteMin(min as number);
+    setMaxOfYear(relativeMax as number);
+    setMinOfYear(relativeMin as number);
+  }, [heatMapYear]);
 
   return (
     <div className="h-full flex flex-col">
@@ -63,7 +97,9 @@ const CarbonIntensity: NextPage = () => {
           <div className="mx-auto relative top-1.5/10">
             {showLineChart ? (
               <LineChart
-                data={intensities}
+                data={allIntensities}
+                min={absoluteMin}
+                max={absoluteMax}
                 fields={fields}
                 width={900}
                 height={600}
@@ -71,7 +107,9 @@ const CarbonIntensity: NextPage = () => {
             ) : (
               <div className="flex flex-col items-center">
                 <HeatMap
-                  data={intensities}
+                  data={intensityOfYear}
+                  min={minOfYear}
+                  max={maxOfYear}
                   fields={fields}
                   width={900}
                   height={600}
