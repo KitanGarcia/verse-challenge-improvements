@@ -1,12 +1,14 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import LoginNavbar from "../components/LoginNavbar";
+import router from "next/router";
 
 const SignUp: NextPage = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const [showError, setShowError] = useState(false);
 
   // Focus on name when modal opens
   useEffect(() => {
@@ -14,6 +16,21 @@ const SignUp: NextPage = () => {
       usernameRef.current.focus();
     }
   }, [usernameRef]);
+
+  const handleRegister = () => {
+    const username = usernameRef!.current!.value;
+    const password = passwordRef!.current!.value;
+
+    if (username && password) {
+      // store a cookie (loggedIn: True)
+      // route to /
+      localStorage.setItem("isLoggedIn", "true");
+      router.push("/planning-and-procurement");
+      setShowError(false);
+    } else {
+      setShowError(true);
+    }
+  };
 
   return (
     <div className="h-full flex flex-col">
@@ -46,9 +63,18 @@ const SignUp: NextPage = () => {
             />
           </div>
         </div>
-        <button className="bg-black mt-4 rounded-lg w-1/2 text-white px-8 py-3">
+        <button
+          className="bg-black mt-4 rounded-lg w-1/2 text-white px-8 py-3"
+          onClick={handleRegister}
+        >
           Sign Up
         </button>
+
+        {showError && (
+          <p className="text-red-600 mt-8">
+            Please register with both a username and password.
+          </p>
+        )}
       </div>
     </div>
   );

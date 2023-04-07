@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import LoginNavbar from "../components/LoginNavbar";
+import router from "next/router";
 
 const Login: NextPage = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -25,6 +26,7 @@ const Login: NextPage = () => {
       // store a cookie (loggedIn: True)
       // route to /
       localStorage.setItem("isLoggedIn", "true");
+      router.push("/planning-and-procurement");
       setShowError(false);
     } else {
       setShowError(true);

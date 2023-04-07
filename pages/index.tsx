@@ -1,9 +1,6 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import router from "next/router";
-import { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
   useEffect(() => {
