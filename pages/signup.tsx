@@ -18,15 +18,15 @@ const SignUp: NextPage = () => {
   return (
     <div className="h-full flex flex-col">
       <LoginNavbar isRegistration={true} />
-      <div className="m-auto flex flex-col items-center justify-center w-1/3 h-2/3">
+      <div className="m-auto flex flex-col items-center w-1/3 h-2/3">
         <Image
-          className="relative bottom-10"
+          className="relative"
           src={"/../public/logo.png"}
           alt={"Verse logo"}
           width={"90"}
           height={"90"}
         />
-        <div>
+        <div className="mt-4">
           <div>
             <label className="relative left-2 top-6">Username</label>
             <input
@@ -47,7 +47,7 @@ const SignUp: NextPage = () => {
           </div>
         </div>
         <button className="bg-black mt-4 rounded-lg w-1/2 text-white px-8 py-3">
-          Sign up
+          Sign Up
         </button>
       </div>
     </div>

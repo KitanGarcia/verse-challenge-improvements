@@ -19,15 +19,17 @@ const Login: NextPage = () => {
   return (
     <div className="h-full flex flex-col">
       <LoginNavbar isRegistration={false} />
-      <div className="m-auto flex flex-col items-center justify-center w-1/3 h-2/3">
-        <Image
-          className="relative bottom-10"
-          src={"/../public/logo.png"}
-          alt={"Verse logo"}
-          width={"90"}
-          height={"90"}
-        />
-        <div>
+      <div className="m-auto flex flex-col items-center w-1/3 h-2/3">
+        <a href="https://verse.inc">
+          <Image
+            className="relative"
+            src={"/../public/logo.png"}
+            alt={"Verse logo"}
+            width={"90"}
+            height={"90"}
+          />
+        </a>
+        <div className="mt-4">
           <div>
             <label className="relative left-2 top-6">Username</label>
             <input
