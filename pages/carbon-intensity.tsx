@@ -1,25 +1,47 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
+import data from "../data/caiso_carbon_intensity.json";
 import Sidebar from "../components/Sidebar";
 import LineChart from "../components/LineChart";
 import { IntensityData } from "../types/IntensityData";
 import { DataField } from "../types/DataField";
-import data from "../data/caiso_carbon_intensity.json";
 import GraphSelector from "../components/GraphSelector";
 import HeatMap from "../components/HeatMap";
 import DashboardNavbar from "../components/DashboardNavbar";
 
-const CarbonIntensity: NextPage = () => {
+import * as dataUtils from "../utils/data";
+import HeatMapControls from "../components/HeatMapControls";
+import { WholeData } from "../types/WholeData";
+
+interface CarbonIntensityProps {
+  data: WholeData;
+}
+
+const CarbonIntensity: NextPage<CarbonIntensityProps> = ({ data }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [showLineChart, setShowLineChart] = useState(true);
-  const [heatMapYear, setHeatMapYear] = useState(2019);
-  const [intensities, setIntensities] = useState<Array<IntensityData>>([]);
+  const [allIntensities, setAllIntensities] = useState<Array<IntensityData>>(
+    []
+  );
+  const [intensityOfYear, setIntensityOfYear] = useState<Array<IntensityData>>(
+    []
+  );
+
+  // Min and max carbon intensities
+  const [absoluteMin, setAbsoluteMin] = useState(0);
+  const [absoluteMax, setAbsoluteMax] = useState(0);
+  const [minOfYear, setMinOfYear] = useState(0);
+  const [maxOfYear, setMaxOfYear] = useState(0);
+
+  const [heatMapYear, setHeatMapYear] = useState(2020);
   const [fields, setDataFields] = useState<Array<DataField>>([]);
 
   // Parse through data
   useEffect(() => {
     // Check if file was read
-    if (!data) {
+    if (!data || !data.data) {
       alert("Unable to retrieve data.");
     }
 
@@ -36,11 +58,24 @@ const CarbonIntensity: NextPage = () => {
       return;
     }
 
-    console.log(data.schema.fields[0]);
-    console.log(data.schema.fields[1]);
+    const {
+      allData,
+      yearData,
+      absoluteMax,
+      absoluteMin,
+      relativeMin,
+      relativeMax,
+    } = dataUtils.organizeData(data.data, heatMapYear);
+
+    // Set all and relative data, maxes, and mins
     setDataFields([dateField, numberField]);
-    setIntensities(data.data as IntensityData[]);
-  }, []);
+    setAllIntensities(allData);
+    setIntensityOfYear(yearData);
+    setAbsoluteMax(absoluteMax);
+    setAbsoluteMin(absoluteMin);
+    setMaxOfYear(relativeMax);
+    setMinOfYear(relativeMin);
+  }, [heatMapYear]);
 
   return (
     <div className="h-full flex flex-col">
@@ -53,28 +88,51 @@ const CarbonIntensity: NextPage = () => {
               isLineChart={true}
               showLineChart={showLineChart}
               setShowLineChart={setShowLineChart}
+              setIsLoading={setIsLoading}
             />
             <GraphSelector
               isLineChart={false}
               showLineChart={showLineChart}
               setShowLineChart={setShowLineChart}
+              setIsLoading={setIsLoading}
             />
           </div>
           <div className="mx-auto relative top-1.5/10">
+            {isLoading && (
+              <div className="absolute flex justify-center items-center bg-white w-full h-full z-10">
+                <Image
+                  width={300}
+                  height={200}
+                  src={"/../public/loadingGif.gif"}
+                  alt={"Loading gif"}
+                />
+              </div>
+            )}
             {showLineChart ? (
               <LineChart
-                data={intensities}
+                data={allIntensities}
+                min={absoluteMin}
+                max={absoluteMax}
                 fields={fields}
                 width={900}
                 height={600}
+                setIsLoading={setIsLoading}
               />
             ) : (
               <div className="flex flex-col items-center">
+                <HeatMapControls
+                  heatMapYear={heatMapYear}
+                  setHeatMapYear={setHeatMapYear}
+                  setIsLoading={setIsLoading}
+                />
                 <HeatMap
-                  data={intensities}
+                  data={intensityOfYear}
+                  min={minOfYear}
+                  max={maxOfYear}
                   fields={fields}
                   width={900}
                   height={600}
+                  setIsLoading={setIsLoading}
                 />
               </div>
             )}
@@ -83,6 +141,19 @@ const CarbonIntensity: NextPage = () => {
       </div>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps<
+  CarbonIntensityProps
+> = async () => {
+  return {
+    props: {
+      data: data,
+    },
+
+    // Cache the data for 1 day
+    revalidate: 3600 * 24,
+  };
 };
 
 export default CarbonIntensity;

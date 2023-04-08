@@ -1,40 +1,52 @@
-//@ts-nocheck
-import React, { useRef, useMemo } from "react";
+import React, {
+  useRef,
+  useMemo,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import * as d3 from "d3";
-import { daysIntoYear } from "../data/utils";
+import { daysIntoYear } from "../utils/data";
 import { IntensityData } from "../types/IntensityData";
 import { DataField } from "../types/DataField";
 import HeatMapLegend from "../components/HeatMapLegend";
 
 interface HeatmapProps {
   data: IntensityData[];
+  min: number;
+  max: number;
   fields: DataField[];
   height: number;
   width: number;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 // Pass in height and width as prop
 const Heatmap: React.FC<HeatmapProps> = ({
   data,
+  min,
+  max,
   fields,
   height,
   width,
+  setIsLoading,
 }: HeatmapProps) => {
+  useEffect(() => {
+    if (data) {
+      setIsLoading(false);
+    }
+  }, [setIsLoading, data]);
+
   const heatmapRef = useRef<SVGSVGElement>(null);
-  const MARGIN = { top: 10, right: 10, bottom: 30, left: 30 };
+  const margin = { top: 10, right: 10, bottom: 30, left: 30 };
 
   // Bounds = area inside the axis
-  const boundsWidth = width - MARGIN.right - MARGIN.left;
-  const boundsHeight = height - MARGIN.top - MARGIN.bottom;
+  const boundsWidth = width - margin.right - margin.left;
+  const boundsHeight = height - margin.top - margin.bottom;
 
-  // List of unique items that will appear on the heatmap Y axis
+  // List of unique items that will appear on Y axis
   const allYGroups = useMemo(
     () => [...new Set(data.map((d) => new Date(d.datetime).getUTCHours()))],
-    [data]
-  );
-
-  const allXGroups = useMemo(
-    () => [...new Set(data.map((d) => d.carbon_intensity))],
     [data]
   );
 
@@ -47,13 +59,11 @@ const Heatmap: React.FC<HeatmapProps> = ({
 
   const yScale = useMemo(() => {
     return d3
-      .scaleBand()
+      .scaleBand<number>()
       .range([boundsHeight, 0])
       .domain(allYGroups)
       .padding(0.01);
   }, [allYGroups, boundsHeight]);
-
-  const [min, max] = d3.extent(data.map((d) => d.carbon_intensity));
 
   const colorScale = d3
     .scaleSequential()
@@ -111,28 +121,25 @@ const Heatmap: React.FC<HeatmapProps> = ({
   });
 
   return (
-    <div className="flex justify-center flex-col items-center">
-      <div>
-        <div className="flex justify-evenly rounded-md border-2 bg-nav-bg text-center">
-          <h2 className="my-4 text-black cursor-pointer">2019</h2>
-          <h2 className="my-4 text-secondary-text cursor-pointer">2020</h2>
-          <h2 className="my-4 text-secondary-text cursor-pointer">2021</h2>
-          <h2 className="my-4 text-secondary-text cursor-pointer">2022</h2>
-        </div>
-        <svg width={width} height={height} ref={heatmapRef}>
-          <g
-            width={boundsWidth}
-            height={boundsHeight}
-            transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
-          >
-            {allRects}
-            {dateRangeLabels}
-            {hourLabels}
-          </g>
-        </svg>
-      </div>
-      <HeatMapLegend width={500} height={100} max={500} min={81} />
-    </div>
+    <>
+      <svg width={width} height={height} ref={heatmapRef}>
+        <g
+          width={boundsWidth}
+          height={boundsHeight}
+          transform={`translate(${[margin.left, margin.top].join(",")})`}
+        >
+          {allRects}
+          {dateRangeLabels}
+          {hourLabels}
+        </g>
+      </svg>
+      <HeatMapLegend
+        width={500}
+        height={100}
+        max={max as number}
+        min={min as number}
+      />
+    </>
   );
 };
 
