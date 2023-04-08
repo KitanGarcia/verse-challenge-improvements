@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
@@ -13,8 +13,13 @@ import DashboardNavbar from "../components/DashboardNavbar";
 
 import * as dataUtils from "../utils/data";
 import HeatMapControls from "../components/HeatMapControls";
+import { WholeData } from "../types/WholeData";
 
-const CarbonIntensity: NextPage = () => {
+interface CarbonIntensityProps {
+  data: WholeData;
+}
+
+const CarbonIntensity: NextPage<CarbonIntensityProps> = ({ data }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showLineChart, setShowLineChart] = useState(true);
   const [allIntensities, setAllIntensities] = useState<Array<IntensityData>>(
@@ -136,6 +141,19 @@ const CarbonIntensity: NextPage = () => {
       </div>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps<
+  CarbonIntensityProps
+> = async () => {
+  return {
+    props: {
+      data: data,
+    },
+
+    // Cache the data for 1 day
+    revalidate: 3600 * 24,
+  };
 };
 
 export default CarbonIntensity;
