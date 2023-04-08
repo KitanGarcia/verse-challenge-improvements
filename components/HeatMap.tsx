@@ -30,7 +30,7 @@ const Heatmap: React.FC<HeatmapProps> = ({
   const boundsWidth = width - margin.right - margin.left;
   const boundsHeight = height - margin.top - margin.bottom;
 
-  // List of unique items that will appear on the heatmap Y axis
+  // List of unique items that will appear on Y axis
   const allYGroups = useMemo(
     () => [...new Set(data.map((d) => new Date(d.datetime).getUTCHours()))],
     [data]
