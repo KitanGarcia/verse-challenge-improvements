@@ -1,4 +1,10 @@
-import React, { useRef, useMemo } from "react";
+import React, {
+  useRef,
+  useMemo,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import * as d3 from "d3";
 import { daysIntoYear } from "../utils/data";
 import { IntensityData } from "../types/IntensityData";
@@ -12,6 +18,7 @@ interface HeatmapProps {
   fields: DataField[];
   height: number;
   width: number;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 // Pass in height and width as prop
@@ -22,7 +29,14 @@ const Heatmap: React.FC<HeatmapProps> = ({
   fields,
   height,
   width,
+  setIsLoading,
 }: HeatmapProps) => {
+  useEffect(() => {
+    if (data) {
+      setIsLoading(false);
+    }
+  }, [setIsLoading, data]);
+
   const heatmapRef = useRef<SVGSVGElement>(null);
   const margin = { top: 10, right: 10, bottom: 30, left: 30 };
 

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, Dispatch, SetStateAction } from "react";
 import * as d3 from "d3";
 import { IntensityData } from "../types/IntensityData";
 import { DataField } from "../types/DataField";
@@ -10,6 +10,7 @@ interface LineChartProps {
   fields: DataField[];
   width: number;
   height: number;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const LineChart = ({
@@ -19,8 +20,15 @@ const LineChart = ({
   fields,
   width,
   height,
+  setIsLoading,
 }: LineChartProps) => {
   const chartRef = useRef(null);
+
+  useEffect(() => {
+    if (data) {
+      setIsLoading(false);
+    }
+  }, [setIsLoading, data]);
 
   useEffect(() => {
     // Hacky solution. Was drawing an extra 0 since max is init as usestate(0)

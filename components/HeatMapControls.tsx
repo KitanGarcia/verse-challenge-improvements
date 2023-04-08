@@ -3,11 +3,13 @@ import { Dispatch, SetStateAction } from "react";
 interface HeatMapControlsProps {
   heatMapYear: number;
   setHeatMapYear: Dispatch<SetStateAction<number>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const HeatMapControls = ({
   heatMapYear,
   setHeatMapYear,
+  setIsLoading,
 }: HeatMapControlsProps) => {
   const isActive = (value: number) => {
     return value === heatMapYear ? true : false;
@@ -18,6 +20,7 @@ const HeatMapControls = ({
       (event.target as HTMLElement).textContent as string
     );
     setHeatMapYear(yearAsNumber);
+    setIsLoading(true);
   };
 
   return (

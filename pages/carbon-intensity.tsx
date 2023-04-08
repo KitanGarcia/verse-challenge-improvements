@@ -1,11 +1,12 @@
 import type { NextPage } from "next";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
+import data from "../data/caiso_carbon_intensity.json";
 import Sidebar from "../components/Sidebar";
 import LineChart from "../components/LineChart";
 import { IntensityData } from "../types/IntensityData";
 import { DataField } from "../types/DataField";
-import data from "../data/caiso_carbon_intensity.json";
 import GraphSelector from "../components/GraphSelector";
 import HeatMap from "../components/HeatMap";
 import DashboardNavbar from "../components/DashboardNavbar";
@@ -14,6 +15,7 @@ import * as dataUtils from "../utils/data";
 import HeatMapControls from "../components/HeatMapControls";
 
 const CarbonIntensity: NextPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [showLineChart, setShowLineChart] = useState(true);
   const [allIntensities, setAllIntensities] = useState<Array<IntensityData>>(
     []
@@ -81,14 +83,26 @@ const CarbonIntensity: NextPage = () => {
               isLineChart={true}
               showLineChart={showLineChart}
               setShowLineChart={setShowLineChart}
+              setIsLoading={setIsLoading}
             />
             <GraphSelector
               isLineChart={false}
               showLineChart={showLineChart}
               setShowLineChart={setShowLineChart}
+              setIsLoading={setIsLoading}
             />
           </div>
           <div className="mx-auto relative top-1.5/10">
+            {isLoading && (
+              <div className="absolute flex justify-center items-center bg-white w-full h-full z-10">
+                <Image
+                  width={300}
+                  height={200}
+                  src={"/../public/loadingGif.gif"}
+                  alt={"Loading gif"}
+                />
+              </div>
+            )}
             {showLineChart ? (
               <LineChart
                 data={allIntensities}
@@ -97,12 +111,14 @@ const CarbonIntensity: NextPage = () => {
                 fields={fields}
                 width={900}
                 height={600}
+                setIsLoading={setIsLoading}
               />
             ) : (
               <div className="flex flex-col items-center">
                 <HeatMapControls
                   heatMapYear={heatMapYear}
                   setHeatMapYear={setHeatMapYear}
+                  setIsLoading={setIsLoading}
                 />
                 <HeatMap
                   data={intensityOfYear}
@@ -111,6 +127,7 @@ const CarbonIntensity: NextPage = () => {
                   fields={fields}
                   width={900}
                   height={600}
+                  setIsLoading={setIsLoading}
                 />
               </div>
             )}
