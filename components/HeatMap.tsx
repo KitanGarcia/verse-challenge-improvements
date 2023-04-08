@@ -107,33 +107,25 @@ const Heatmap: React.FC<HeatmapProps> = ({
   });
 
   return (
-    <div className="flex justify-center flex-col items-center">
-      <div>
-        <div className="flex justify-evenly rounded-md border-2 bg-nav-bg text-center">
-          <h2 className="my-4 text-black cursor-pointer">2019</h2>
-          <h2 className="my-4 text-secondary-text cursor-pointer">2020</h2>
-          <h2 className="my-4 text-secondary-text cursor-pointer">2021</h2>
-          <h2 className="my-4 text-secondary-text cursor-pointer">2022</h2>
-        </div>
-        <svg width={width} height={height} ref={heatmapRef}>
-          <g
-            width={boundsWidth}
-            height={boundsHeight}
-            transform={`translate(${[margin.left, margin.top].join(",")})`}
-          >
-            {allRects}
-            {dateRangeLabels}
-            {hourLabels}
-          </g>
-        </svg>
-      </div>
+    <>
+      <svg width={width} height={height} ref={heatmapRef}>
+        <g
+          width={boundsWidth}
+          height={boundsHeight}
+          transform={`translate(${[margin.left, margin.top].join(",")})`}
+        >
+          {allRects}
+          {dateRangeLabels}
+          {hourLabels}
+        </g>
+      </svg>
       <HeatMapLegend
         width={500}
         height={100}
         max={max as number}
         min={min as number}
       />
-    </div>
+    </>
   );
 };
 

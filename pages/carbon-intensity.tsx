@@ -11,6 +11,7 @@ import HeatMap from "../components/HeatMap";
 import DashboardNavbar from "../components/DashboardNavbar";
 
 import * as dataUtils from "../utils/data";
+import HeatMapControls from "../components/HeatMapControls";
 
 const CarbonIntensity: NextPage = () => {
   const [showLineChart, setShowLineChart] = useState(true);
@@ -27,7 +28,7 @@ const CarbonIntensity: NextPage = () => {
   const [minOfYear, setMinOfYear] = useState(0);
   const [maxOfYear, setMaxOfYear] = useState(0);
 
-  const [heatMapYear, setHeatMapYear] = useState(2021);
+  const [heatMapYear, setHeatMapYear] = useState(2020);
   const [fields, setDataFields] = useState<Array<DataField>>([]);
 
   // Parse through data
@@ -99,6 +100,10 @@ const CarbonIntensity: NextPage = () => {
               />
             ) : (
               <div className="flex flex-col items-center">
+                <HeatMapControls
+                  heatMapYear={heatMapYear}
+                  setHeatMapYear={setHeatMapYear}
+                />
                 <HeatMap
                   data={intensityOfYear}
                   min={minOfYear}
