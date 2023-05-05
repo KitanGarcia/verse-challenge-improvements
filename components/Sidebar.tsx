@@ -2,7 +2,10 @@ import router from "next/router";
 
 const Sidebar = () => {
   return (
-    <div className="w-[20rem] z-10 flex flex-col items-center top-0 bottom-0 h-full bg-nav-bg border-r-2">
+    <div
+      data-testid="sidebar"
+      className="w-[20rem] z-10 flex flex-col items-center top-0 bottom-0 h-full bg-nav-bg border-r-2"
+    >
       <h2 className="text-lg w-full h-16 text-center border-b-2 py-4 tracking-[.5em] font-semibold">
         <a href="https://verse.inc">verse</a>
       </h2>
