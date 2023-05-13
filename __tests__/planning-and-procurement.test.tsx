@@ -1,6 +1,11 @@
 import { fireEvent, render } from "@testing-library/react";
 import PlanningAndProcurement from "../pages/planning-and-procurement";
 import "@testing-library/jest-dom";
+import router, { useRouter } from "next/router";
+
+jest.mock("next/router", () => ({
+  push: jest.fn(),
+}));
 
 describe("Planning and Procurement", () => {
   it("renders the planning and procurement page with a sidebar, navbar, and 4 tiles", () => {
@@ -9,7 +14,7 @@ describe("Planning and Procurement", () => {
     expect(getByTestId("tile1")).toBeInTheDocument();
     expect(getByTestId("tile2")).toBeInTheDocument();
     expect(getByTestId("tile3")).toBeInTheDocument();
-    expect(getByTestId("tile4")).toBeInTheDocument();
+    expect(getByTestId("carbon-intensity")).toBeInTheDocument();
     expect(getByTestId("sidebar")).toBeInTheDocument();
     expect(getByTestId("dashboard-navbar")).toBeInTheDocument();
   });
@@ -28,5 +33,14 @@ describe("Planning and Procurement", () => {
     const { getByTestId } = render(<PlanningAndProcurement />);
     expect(getByTestId("dashboard-navbar")).toBeInTheDocument();
     expect(getByTestId("profile-picture")).toBeInTheDocument();
+  });
+
+  it("routes to the carbon intensity page when the carbon intensity tile's set up button is clicked", () => {
+    const { getByTestId } = render(<PlanningAndProcurement />);
+
+    const setupButton = getByTestId("carbon-intensity-setup-button");
+    fireEvent.click(setupButton);
+
+    expect(router.push).toHaveBeenCalledWith("/carbon-intensity");
   });
 });

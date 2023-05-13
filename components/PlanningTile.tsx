@@ -33,6 +33,7 @@ const PlanningTile = ({
       />
       <h1 className="text-center">{title}</h1>
       <button
+        data-testid={`${testId}-setup-button`}
         className={`rounded-full outline-none px-16 py-2 ${
           enabled ? "bg-black" : "bg-disabled"
         }

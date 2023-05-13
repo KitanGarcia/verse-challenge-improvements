@@ -47,7 +47,7 @@ const PlanningAndProcurement: NextPage = () => {
                 buttonText={"Set up"}
                 enabled={true}
                 route={"/carbon-intensity"}
-                testId={"tile4"}
+                testId={"carbon-intensity"}
               />
             </div>
           </div>
