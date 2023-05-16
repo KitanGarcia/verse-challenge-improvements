@@ -21,6 +21,7 @@ const GraphSelectorProps = ({
   };
   return (
     <button
+      data-testid={isLineChart ? "linechart-selector" : "heatmap-selector"}
       className={`rounded-full px-16 py-2 mx-4 ${
         isLineChart === showLineChart ? "bg-black" : "bg-disabled"
       }

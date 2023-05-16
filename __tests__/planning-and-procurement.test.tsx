@@ -1,7 +1,7 @@
 import { fireEvent, render } from "@testing-library/react";
 import PlanningAndProcurement from "../pages/planning-and-procurement";
 import "@testing-library/jest-dom";
-import router, { useRouter } from "next/router";
+import router from "next/router";
 
 jest.mock("next/router", () => ({
   push: jest.fn(),
