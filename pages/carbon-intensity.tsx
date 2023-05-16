@@ -75,7 +75,7 @@ const CarbonIntensity: NextPage<CarbonIntensityProps> = ({ data }) => {
     setAbsoluteMin(absoluteMin);
     setMaxOfYear(relativeMax);
     setMinOfYear(relativeMin);
-  }, [heatMapYear]);
+  }, [heatMapYear, data]);
 
   return (
     <div className="h-full flex flex-col">
@@ -85,13 +85,6 @@ const CarbonIntensity: NextPage<CarbonIntensityProps> = ({ data }) => {
           <DashboardNavbar imageSrc={"/../public/profilePic.png"} />
           <div className="flex justify-center relative top-1/10">
             <GraphSelector
-              isLineChart={true}
-              showLineChart={showLineChart}
-              setShowLineChart={setShowLineChart}
-              setIsLoading={setIsLoading}
-            />
-            <GraphSelector
-              isLineChart={false}
               showLineChart={showLineChart}
               setShowLineChart={setShowLineChart}
               setIsLoading={setIsLoading}

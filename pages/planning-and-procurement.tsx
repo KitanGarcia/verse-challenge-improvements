@@ -21,6 +21,7 @@ const PlanningAndProcurement: NextPage = () => {
                 buttonText={"Set up"}
                 enabled={false}
                 route={""}
+                testId={"tile1"}
               />
               <PlanningTile
                 imageSrc={"/../public/placeholder.png"}
@@ -28,6 +29,7 @@ const PlanningAndProcurement: NextPage = () => {
                 buttonText={"Set up"}
                 enabled={false}
                 route={""}
+                testId={"tile2"}
               />
             </div>
             <div className="flex justify-center">
@@ -37,6 +39,7 @@ const PlanningAndProcurement: NextPage = () => {
                 buttonText={"Set up"}
                 enabled={false}
                 route={""}
+                testId={"tile3"}
               />
               <PlanningTile
                 imageSrc={"/../public/placeholder.png"}
@@ -44,6 +47,7 @@ const PlanningAndProcurement: NextPage = () => {
                 buttonText={"Set up"}
                 enabled={true}
                 route={"/carbon-intensity"}
+                testId={"carbon-intensity"}
               />
             </div>
           </div>

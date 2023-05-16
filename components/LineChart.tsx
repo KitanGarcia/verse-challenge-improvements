@@ -151,7 +151,13 @@ const LineChart = ({
       .attr("stroke-dashoffset", 0);
   }, [chartRef, data, height, width, max]);
 
-  return <svg className="mx-auto w-[900px] h-[500px]" ref={chartRef}></svg>;
+  return (
+    <svg
+      data-testid="linechart"
+      className="mx-auto w-[900px] h-[500px]"
+      ref={chartRef}
+    ></svg>
+  );
 };
 
 export default LineChart;
