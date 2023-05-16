@@ -14,6 +14,7 @@ describe("Carbon Intensity", () => {
     const { getByTestId } = render(<CarbonIntensity data={data} />);
     expect(getByTestId("carbon-intensity")).toBeInTheDocument();
     expect(getByTestId("sidebar")).toBeInTheDocument();
+    expect(getByTestId("graph-selector")).toBeInTheDocument();
     expect(getByTestId("linechart-selector")).toBeInTheDocument();
     expect(getByTestId("heatmap-selector")).toBeInTheDocument();
     expect(getByTestId("linechart")).toBeInTheDocument();

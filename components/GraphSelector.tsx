@@ -1,38 +1,50 @@
 import { Dispatch, SetStateAction } from "react";
 
 interface GraphSelectorProps {
-  isLineChart: boolean;
   showLineChart: boolean;
   setShowLineChart: Dispatch<SetStateAction<boolean>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const GraphSelectorProps = ({
-  isLineChart,
+const GraphSelector = ({
   showLineChart,
   setShowLineChart,
   setIsLoading,
 }: GraphSelectorProps) => {
-  const handleClick = () => {
+  const handleClick = (isLineChart: boolean) => {
     isLineChart ? setShowLineChart(true) : setShowLineChart(false);
     if (isLineChart === showLineChart) {
       setIsLoading(true);
     }
   };
   return (
-    <button
-      data-testid={isLineChart ? "linechart-selector" : "heatmap-selector"}
-      className={`rounded-full px-16 py-2 mx-4 ${
-        isLineChart === showLineChart ? "bg-black" : "bg-disabled"
-      }
-        ${isLineChart === showLineChart ? "text-white" : "text-black"}
-        ${isLineChart === showLineChart ? "cursor-default" : "cursor-pointer"}
+    <div data-test-id="graph-selector">
+      <button
+        data-testid="linechart-selector"
+        className={`rounded-full px-16 py-2 mx-4 ${
+          showLineChart ? "bg-black" : "bg-disabled"
+        }
+        ${showLineChart ? "text-white" : "text-black"}
+        ${showLineChart ? "cursor-default" : "cursor-pointer"}
         `}
-      onClick={handleClick}
-    >
-      {isLineChart ? "Line Chart" : "Heat Map"}
-    </button>
+        onClick={() => handleClick(true)}
+      >
+        Line Chart
+      </button>
+      <button
+        data-testid="heatmap-selector"
+        className={`rounded-full px-16 py-2 mx-4 ${
+          !showLineChart ? "bg-black" : "bg-disabled"
+        }
+        ${!showLineChart ? "text-white" : "text-black"}
+        ${!showLineChart ? "cursor-default" : "cursor-pointer"}
+        `}
+        onClick={() => handleClick(false)}
+      >
+        Heat Map
+      </button>
+    </div>
   );
 };
 
-export default GraphSelectorProps;
+export default GraphSelector;
