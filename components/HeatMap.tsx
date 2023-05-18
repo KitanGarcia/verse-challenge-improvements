@@ -70,6 +70,11 @@ const Heatmap: React.FC<HeatmapProps> = ({
     .interpolator(d3.interpolateInferno)
     .domain([min, max] as number[]);
 
+  if (!xScale || !yScale) {
+    // Render a placeholder or loading state here
+    return null;
+  }
+
   const allRects = data.map((d, i) => {
     let y = new Date(d.datetime).getUTCHours();
     let x = daysIntoYear(new Date(d.datetime));
@@ -122,7 +127,7 @@ const Heatmap: React.FC<HeatmapProps> = ({
 
   return (
     <>
-      <svg width={width} height={height} ref={heatmapRef}>
+      <svg data-testid="heatmap" width={width} height={height} ref={heatmapRef}>
         <g
           width={boundsWidth}
           height={boundsHeight}
@@ -134,6 +139,7 @@ const Heatmap: React.FC<HeatmapProps> = ({
         </g>
       </svg>
       <HeatMapLegend
+        data-testid="heatmap-legend"
         width={500}
         height={100}
         max={max as number}

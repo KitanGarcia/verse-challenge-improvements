@@ -14,6 +14,13 @@ const config = {
 
   testEnvironment: "jest-environment-jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  transformIgnorePatterns: [
+    "/node_modules/(?!d3|d3-array|internmap|delaunator|robust-predicates)",
+  ],
+  moduleNameMapper: {
+    d3: "<rootDir>/node_modules/d3/dist/d3.min.js",
+    "^d3-(.*)$": "<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js",
+  },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
