@@ -72,7 +72,7 @@ const HeatMapLegend = ({ width, height, max, min }: HeatMapLegendProps) => {
   }, [width, height, colorScale, boundsWidth, boundsHeight, max]);
 
   return (
-    <div style={{ width, height }}>
+    <div data-testid="heatmap-legend" style={{ width, height }}>
       <div
         style={{
           position: "relative",

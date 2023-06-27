@@ -8,14 +8,12 @@ import React, {
 import * as d3 from "d3";
 import { daysIntoYear } from "../utils/data";
 import { IntensityData } from "../types/IntensityData";
-import { DataField } from "../types/DataField";
 import HeatMapLegend from "../components/HeatMapLegend";
 
 interface HeatmapProps {
   data: IntensityData[];
   min: number;
   max: number;
-  fields: DataField[];
   height: number;
   width: number;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -26,7 +24,6 @@ const Heatmap: React.FC<HeatmapProps> = ({
   data,
   min,
   max,
-  fields,
   height,
   width,
   setIsLoading,
@@ -69,6 +66,11 @@ const Heatmap: React.FC<HeatmapProps> = ({
     .scaleSequential()
     .interpolator(d3.interpolateInferno)
     .domain([min, max] as number[]);
+
+  if (!xScale || !yScale) {
+    // Render a placeholder or loading state here
+    return null;
+  }
 
   const allRects = data.map((d, i) => {
     let y = new Date(d.datetime).getUTCHours();
@@ -122,7 +124,7 @@ const Heatmap: React.FC<HeatmapProps> = ({
 
   return (
     <>
-      <svg width={width} height={height} ref={heatmapRef}>
+      <svg data-testid="heatmap" width={width} height={height} ref={heatmapRef}>
         <g
           width={boundsWidth}
           height={boundsHeight}

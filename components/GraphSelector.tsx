@@ -18,7 +18,7 @@ const GraphSelector = ({
     }
   };
   return (
-    <div data-test-id="graph-selector">
+    <div data-testid="graph-selector">
       <button
         data-testid="linechart-selector"
         className={`rounded-full px-16 py-2 mx-4 ${

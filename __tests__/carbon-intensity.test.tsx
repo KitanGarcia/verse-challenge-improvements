@@ -1,4 +1,5 @@
-import { fireEvent, render } from "@testing-library/react";
+import React from "react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import CarbonIntensity from "../pages/carbon-intensity";
 import "@testing-library/jest-dom";
 import router from "next/router";
@@ -6,6 +7,41 @@ import data from "../data/caiso_carbon_intensity.json";
 
 jest.mock("next/router", () => ({
   push: jest.fn(),
+}));
+
+jest.mock("d3", () => ({
+  scaleTime: jest.fn().mockReturnThis(),
+  scaleLinear: jest.fn().mockReturnThis(),
+  line: jest.fn().mockReturnThis(),
+  area: jest.fn().mockReturnThis(),
+  scaleBand: jest.fn().mockReturnThis(),
+  scaleSequential: jest.fn().mockReturnThis(),
+  interpolator: jest.fn().mockReturnThis(),
+  select: jest.fn().mockReturnThis(),
+  selectAll: jest.fn().mockReturnThis(),
+  transition: jest.fn().mockReturnThis(),
+  duration: jest.fn().mockReturnThis(),
+  append: jest.fn().mockReturnThis(),
+  attr: jest.fn().mockReturnThis(),
+  style: jest.fn().mockReturnThis(),
+  data: jest.fn().mockReturnThis(),
+  call: jest.fn().mockReturnThis(),
+  axisBottom: jest.fn(),
+  axisLeft: jest.fn(),
+  domain: jest.fn().mockReturnThis(),
+  range: jest.fn().mockReturnThis(),
+  remove: jest.fn(),
+  padding: jest.fn(),
+  nice: jest.fn().mockReturnThis(),
+  x: jest.fn().mockReturnThis(),
+  y: jest.fn().mockReturnThis(),
+  y0: jest.fn().mockReturnThis(),
+  y1: jest.fn().mockReturnThis(),
+  text: jest.fn().mockReturnThis(),
+  node: jest.fn().mockReturnThis(),
+  getTotalLength: jest.fn(),
+  xScale: jest.fn(),
+  yScale: jest.fn(),
 }));
 
 describe("Carbon Intensity", () => {
@@ -43,5 +79,17 @@ describe("Carbon Intensity", () => {
     fireEvent.click(planningAndProcurementLink);
 
     expect(router.push).toHaveBeenCalledWith("/planning-and-procurement");
+  });
+
+  it("renders the heatmap and heatmap legend when Heat Map on the Graph Selector is selected", async () => {
+    const { getByTestId } = render(<CarbonIntensity data={data} />);
+
+    const heatmapButton = getByTestId("heatmap-selector");
+    fireEvent.click(heatmapButton);
+
+    await waitFor(async () => {
+      expect(getByTestId("heatmap")).toBeInTheDocument();
+      expect(getByTestId("heatmap-legend")).toBeInTheDocument();
+    });
   });
 });
