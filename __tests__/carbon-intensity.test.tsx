@@ -1,3 +1,4 @@
+import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import CarbonIntensity from "../pages/carbon-intensity";
 import "@testing-library/jest-dom";
@@ -86,12 +87,9 @@ describe("Carbon Intensity", () => {
     const heatmapButton = getByTestId("heatmap-selector");
     fireEvent.click(heatmapButton);
 
-    await waitFor(
-      () => {
-        expect(getByTestId("heatmap")).toBeInTheDocument();
-        expect(getByTestId("heatmap-legend")).toBeInTheDocument();
-      },
-      { timeout: 4000 }
-    );
+    await waitFor(async () => {
+      expect(getByTestId("heatmap")).toBeInTheDocument();
+      expect(getByTestId("heatmap-legend")).toBeInTheDocument();
+    });
   });
 });

@@ -78,7 +78,7 @@ const CarbonIntensity: NextPage<CarbonIntensityProps> = ({ data }) => {
   }, [heatMapYear, data]);
 
   return (
-    <div className="h-full flex flex-col">
+    <div data-testid="carbon-intensity" className="h-full flex flex-col">
       <div className="w-full h-full flex">
         <Sidebar />
         <div className="w-full h-full">
@@ -122,7 +122,6 @@ const CarbonIntensity: NextPage<CarbonIntensityProps> = ({ data }) => {
                   data={intensityOfYear}
                   min={minOfYear}
                   max={maxOfYear}
-                  fields={fields}
                   width={900}
                   height={600}
                   setIsLoading={setIsLoading}

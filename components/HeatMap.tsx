@@ -8,14 +8,12 @@ import React, {
 import * as d3 from "d3";
 import { daysIntoYear } from "../utils/data";
 import { IntensityData } from "../types/IntensityData";
-import { DataField } from "../types/DataField";
 import HeatMapLegend from "../components/HeatMapLegend";
 
 interface HeatmapProps {
   data: IntensityData[];
   min: number;
   max: number;
-  fields: DataField[];
   height: number;
   width: number;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -26,7 +24,6 @@ const Heatmap: React.FC<HeatmapProps> = ({
   data,
   min,
   max,
-  fields,
   height,
   width,
   setIsLoading,
@@ -139,7 +136,6 @@ const Heatmap: React.FC<HeatmapProps> = ({
         </g>
       </svg>
       <HeatMapLegend
-        data-testid="heatmap-legend"
         width={500}
         height={100}
         max={max as number}

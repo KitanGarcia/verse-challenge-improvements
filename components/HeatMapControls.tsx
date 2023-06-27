@@ -26,6 +26,7 @@ const HeatMapControls = ({
   return (
     <div className="flex w-1/2 justify-evenly rounded-md border-2 bg-nav-bg text-center">
       <h2
+        data-testid="heatmap-select-2019"
         className={`my-2 p-2 rounded-full ${
           isActive(2019) ? "text-white bg-black" : "text-secondary-text"
         } cursor-pointer`}
@@ -34,6 +35,7 @@ const HeatMapControls = ({
         2019
       </h2>
       <h2
+        data-testid="heatmap-select-2020"
         className={`my-2 p-2 rounded-full ${
           isActive(2020) ? "text-white bg-black" : "text-secondary-text"
         } cursor-pointer`}
@@ -42,6 +44,7 @@ const HeatMapControls = ({
         2020
       </h2>
       <h2
+        data-testid="heatmap-select-2021"
         className={`my-2 p-2 rounded-full ${
           isActive(2021) ? "text-white bg-black" : "text-secondary-text"
         } cursor-pointer`}
@@ -50,6 +53,7 @@ const HeatMapControls = ({
         2021
       </h2>
       <h2
+        data-testid="heatmap-select-2022"
         className={`my-2 p-2 rounded-full ${
           isActive(2022) ? "text-white bg-black" : "text-secondary-text"
         } cursor-pointer`}
@@ -58,6 +62,7 @@ const HeatMapControls = ({
         2022
       </h2>
       <h2
+        data-testid="heatmap-select-2023"
         className={`my-2 p-2 rounded-full ${
           isActive(2023) ? "text-white bg-black" : "text-secondary-text"
         } cursor-pointer`}
