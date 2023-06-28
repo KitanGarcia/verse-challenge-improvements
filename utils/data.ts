@@ -5,8 +5,8 @@ import { OrganizedData } from "../types/OrganizedData";
 // Ie. Jan 3 => 3
 export const daysIntoYear = (date: Date) => {
   return (
-    (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
-      Date.UTC(date.getFullYear(), 0, 0)) /
+    (Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) -
+      Date.UTC(date.getUTCFullYear(), 0, 0)) /
     24 /
     60 /
     60 /
@@ -30,15 +30,8 @@ export const organizeData = (
   let relativeMax = 0;
   let relativeMin = 0;
 
-  // Sort data to more easily find duplicates
-  // ASSUME DATA IS SORTED. The below, works, but I ran out of time for a better solution
-  /*
-  const sorted = data;
-    .sort(function (a, b) {
-      return new Date(b.datetime).getTime() - new Date(a.datetime).getTime();
-    })
-    .reverse();
-    */
+  // Assume that data from back end is sorted before cleaning it
+  // Ideally, the backend should have cleaned the data for us though in the first place
   for (let i = 0; i < sortedData.length; i++) {
     if (
       // Only add good data
